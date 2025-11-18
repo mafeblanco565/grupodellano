@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alianza Estratégica - Campuslands & Grupo de Llano</title>
+
+    <style>
+        /* ------------------------ RESET ------------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6b46c1;
+            --secondary: #3b82f6;
+            --white: #ffffff;
+            --dark: #1f2937;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --gray-light: #f3f4f6;
+            --gray-medium: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+            background: var(--white);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* ------------------------ HEADER ------------------------ */
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 100;
+            padding: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            width: 400px;
+            height: auto;
+        }
+
+        /* Desktop menu */
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+        }
+
+        /* ------------------------ HAMBURGER ------------------------ */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: 0.3s ease;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 75%;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -2px 0 12px rgba(0,0,0,0.15);
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            transition: 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu.open {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+            z-index: 900;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ------------------------ HERO ------------------------ */
+        .hero {
+            padding: 5rem 1rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            background: var(--gray-light);
+            border-radius: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+        }
+
+        /* ------------------------ PROPOSAL ------------------------ */
+        .propuesta {
+            padding: 4rem 0;
+            background: #faf7ff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: auto;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .collaboration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+            gap: 1.5rem;
+        }
+
+        .collaboration-card {
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            border: 1px solid var(--gray-medium);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .collaboration-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: .5rem 0 1rem;
+        }
+
+        /* ------------------------ PHASES ------------------------ */
+        .fases {
+            padding: 4rem 0;
+        }
+
+        .phase-card {
+            margin-bottom: 1rem;
+            border-radius: 1rem;
+            border: 1px solid var(--gray-medium);
+            overflow: hidden;
+            background: var(--white);
+        }
+
+        .phase-header {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .phase-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: .3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .phase-card.active .phase-body {
+            max-height: 300px;
+            padding: 1.5rem;
+        }
+
+        /* ------------------------ BENEFICIOS ------------------------ */
+        .beneficios {
+            background: linear-gradient(135deg,#f7f3ff,#f0f7ff);
+            padding: 4rem 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+            gap: 1.5rem;
+        }
+
+        .benefit-card {
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            border: 1px solid var(--gray-medium);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* ------------------------ IMPLEMENTATION ------------------------ */
+        .implementation {
+            padding: 4rem 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg,var(--primary),var(--secondary));
+            color: var(--white);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* ------------------------ CTA ------------------------ */
+        .cta-section {
+            padding: 4rem 1rem;
+            text-align: center;
+            color: var(--white);
+            background: linear-gradient(135deg,var(--primary),var(--secondary));
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.8rem,4vw,2.5rem);
+            margin-bottom: 1rem;
+        }
+
+        /* ------------------------ FOOTER ------------------------ */
+        .footer {
+            background: var(--dark);
+            padding: 3rem 1rem;
+            color: var(--white);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+            gap: 2rem;
+        }
+
+        /* ------------------------ RESPONSIVE ------------------------ */
+        @media(max-width: 860px){
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .btn-large {
+                width: 100%;
+            }
+
+            .hero {
+                padding-top: 3rem;
+            }
+
+            .logo-img {
+                width: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#propuesta" onclick="closeMenu()">Propuesta</a>
+    <a href="#fases" onclick="closeMenu()">Fases</a>
+    <a href="#beneficios" onclick="closeMenu()">Beneficios</a>
+
+    <a href="pdf/Propuesta Grupo de llano.pdf" class="btn btn-primary" download>
+        📄 Descargar propuesta
+    </a>
+</div>
+
+<!-- Header -->
+<header class="header">
+    <div class="container nav-container">
+        <img src="logos/logo grupo llano.jpg" class="logo-img" alt="Logo Grupo de Llano" />
+
+        <!-- Hamburger -->
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+
+        <!-- Desktop nav -->
+        <nav class="nav-menu">
+            <a href="#propuesta" class="nav-link">Propuesta</a>
+            <a href="#fases" class="nav-link">Fases</a>
+            <a href="#beneficios" class="nav-link">Beneficios</a>
+            <a href="pdf/Propuesta Grupo de llano.pdf" class="btn btn-primary" download>
+                📄 Descargar propuesta
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <h1 class="hero-title">
+            Una inversión en talento para <span style="color:var(--primary)">fortalecer la competitividad</span> del Grupo de Llano
+        </h1>
+        <p class="hero-subtitle">
+            Alianza estratégica para formar a los hijos de colaboradores en programación, inteligencia artificial e inglés, aportando al desarrollo tecnológico y social del territorio.
+        </p>
+
+        <div class="hero-buttons">
+            <button class="btn btn-primary btn-large">Conocer más</button>
+
+            <a href="pdf/Propuesta Grupo de llano.pdf" class="btn btn-outline btn-large" download>
+                📄 Ver propuesta
+            </a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                Meses de formación
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1.800</div>
+                Horas presenciales
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">90</div>
+                Días a empleo
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROPOSAL -->
+<section id="propuesta" class="propuesta">
+    <div class="container">
+        <h2 class="section-title">Un modelo de formación probado y escalable</h2>
+        <p class="section-subtitle">
+            Un ciclo formativo de alta exigencia que garantiza disciplina, rendimiento y empleabilidad efectiva.
+        </p>
+
+        <div class="collaboration-grid">
+            <div class="collaboration-card">
+                <h3>Inversión por estudiante</h3>
+                <div class="collaboration-amount">$23.000.000 COP</div>
+                Incluye beca completa en programación, IA e inglés.
+            </div>
+
+            <div class="collaboration-card">
+                <h3>Esquema de corresponsabilidad</h3>
+                <p>Por cada beca financiada, Campuslands abre un cupo adicional para otro hijo de colaborador.</p>
+                <p><strong>Aporte Grupo de Llano:</strong> $13.000.000 COP</p>
+                <p><strong>Aporte Campuslands:</strong> $10.000.000 COP</p>
+                <p><strong>Impacto:</strong> una beca transforma dos familias.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PHASES -->
+<section id="fases" class="fases">
+    <div class="container">
+        <h2 class="section-title">Las 5 fases del proceso</h2>
+
+        <!-- Phase 1 -->
+        <div class="phase-card">
+            <div class="phase-header" onclick="togglePhase(this)">
+                <div>👥</div>
+                <div>
+                    <h3>Fase 1 – Reclutamiento y Selección</h3>
+                    Talent Up
+                </div>
+            </div>
+            <div class="phase-body">
+                Evaluación diagnóstica integral, pruebas técnicas, de lógica e inglés.  
+                Solo avanzan los perfiles con mayor disciplina y potencial.
+            </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase-card">
+            <div class="phase-header" onclick="togglePhase(this)">
+                <div>⚡</div>
+                <div>
+                    <h3>Fase 2 – Sandbox</h3>
+                    15 días intensivos
+                </div>
+            </div>
+            <div class="phase-body">
+                Entrenamiento inicial intensivo para medir resiliencia, compromiso y trabajo colaborativo.
+            </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase-card">
+            <div class="phase-header" onclick="togglePhase(this)">
+                <div>📚</div>
+                <div>
+                    <h3>Fase 3 – Bootcamp</h3>
+                    10 meses – 1.800 horas
+                </div>
+            </div>
+            <div class="phase-body">
+                Programación (3h/día), IA (3h/día), inglés (2h/día), habilidades socioemocionales (1h/día).
+            </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="phase-card">
+            <div class="phase-header" onclick="togglePhase(this)">
+                <div>💼</div>
+                <div>
+                    <h3>Fase 4 – Empleabilidad</h3>
+                    Tech Leap
+                </div>
+            </div>
+            <div class="phase-body">
+                Mentoría de carrera + conexión con más de 110 empresas en 7 países.
+            </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="phase-card">
+            <div class="phase-header" onclick="togglePhase(this)">
+                <div>📈</div>
+                <div>
+                    <h3>Fase 5 – Inserción Laboral</h3>
+                    Máximo 90 días
+                </div>
+            </div>
+            <div class="phase-body">
+                Más del 80% se vincula laboralmente, principalmente en modalidad remota.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="beneficios" class="beneficios">
+    <div class="container">
+        <h2 class="section-title">Beneficios para el Grupo de Llano</h2>
+
+        <div class="benefits-grid">
+
+            <div class="benefit-card">
+                <h3>🌱 Impacto social interno</h3>
+                Oportunidades reales para los hijos de colaboradores.
+            </div>
+
+            <div class="benefit-card">
+                <h3>🏗️ Fortalecimiento del conglomerado</h3>
+                Talento joven que apoyará procesos críticos como automatización, BIM y monitoreo ambiental.
+            </div>
+
+            <div class="benefit-card">
+                <h3>🌍 Alineación con ODS</h3>
+                Educación de calidad, trabajo decente e innovación.
+            </div>
+
+            <div class="benefit-card">
+                <h3>💰 Beneficios tributarios</h3>
+                Deducción entre el 25% y 35% según modalidad.
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- IMPLEMENTATION -->
+<section class="implementation">
+    <div class="container">
+        <h2 class="section-title">Plan de Implementación</h2>
+
+        <div class="step-item">
+            <div class="step-number">1</div>
+            Planeación con Talento Humano y RSE.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">2</div>
+            Convocatoria interna unificada.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">3</div>
+            Charlas informativas.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">4</div>
+            Selección y admisión.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">5</div>
+            Inicio de entrenamiento intensivo.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">6</div>
+            Seguimiento académico.
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">7</div>
+            Conexión laboral garantizada.
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Con el Grupo de Llano y Campuslands, el talento regional comienza a programarse hoy</h2>
+        <p>Una apuesta estratégica por el territorio, la innovación y el futuro de las familias del conglomerado.</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer-grid">
+        <div>
+            <h3>Campuslands</h3>
+            Transformando jóvenes en profesionales de tecnología.
+        </div>
+
+        <div>
+            <h3>Grupo de Llano</h3>
+            Infraestructura, energía, gas y servicios ambientales.
+        </div>
+
+        <div>
+            <h3>Alianza Estratégica</h3>
+            Talento, tecnología y sostenibilidad para el territorio.
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ------------------------ MOBILE MENU ------------------------ */
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+const overlay = document.getElementById("overlay");
+
+hamburger.addEventListener("click", () => {
+    mobileMenu.classList.add("open");
+    overlay.classList.add("active");
+});
+
+function closeMenu() {
+    mobileMenu.classList.remove("open");
+    overlay.classList.remove("active");
+}
+
+overlay.addEventListener("click", closeMenu);
+
+/* ------------------------ PHASE TOGGLE ------------------------ */
+function togglePhase(el) {
+    const card = el.parentElement;
+    const isOpen = card.classList.contains("active");
+
+    document.querySelectorAll(".phase-card").forEach(c => c.classList.remove("active"));
+
+    if (!isOpen) card.classList.add("active");
+}
+</script>
+
+</body>
+</html>
+
